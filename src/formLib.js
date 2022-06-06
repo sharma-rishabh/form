@@ -11,9 +11,15 @@ const getQuestion = () => {
   };
   const hobbies = {
     currentQuestion: 'Please enter your hobbies (comma separated) ',
-    nextStatement: 'Please enter your date of birth (yyyy-mm-dd): ',
-    relatedToField: 'dob'
+    nextStatement: 'Thankyou',
+    relatedToField: 'hobbies'
   };
 
   return [name, dob, hobbies];
+};
+
+const formMain = () => {
+  const questions = getQuestion();
+
+  console.log(questions[0].currentQuestion);
 };
