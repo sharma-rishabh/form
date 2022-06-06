@@ -12,7 +12,7 @@ class InputHandler {
   }
 
   processChunk(chunkProcessor, chunk, ...args) {
-    chunkProcessor.apply(null, [chunk, ...args]);
+    return chunkProcessor.apply(null, [chunk, ...args]);
   }
 }
 

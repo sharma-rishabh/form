@@ -1,9 +1,17 @@
 const fs = require('fs');
+const { Form } = require('./form');
 const { InputHandler } = require('./inputHandler');
+const { Question } = require('./question');
 
-const writeToJSON = (object) => {
-  const JSONString = JSON.stringify(object);
-  fs.writeFileSync('./answers.json', JSONString, 'utf8');
+const writeToFile = (string) => {
+  fs.writeFileSync('./answers.json', string, 'utf8');
+};
+
+const parseNumber = (number) => number;
+
+const validateNumber = (number) => {
+  const isValidNumber = /^\d{10,10}$/;
+  return isValidNumber.test(number);
 };
 
 const parseName = (name) => {
@@ -36,66 +44,92 @@ const parseHobbies = (hobbies) => {
   return hobbies.split(',');
 }
 
-const getQuestion = () => {
-  const name = {
-    currentQuestion: 'Please enter your name: ',
-    nextStatement: 'Please enter your date of birth (yyyy-mm-dd): ',
-    relatedToField: 'name',
-    parser: parseName,
-    validator: validateName
-  };
-
-  const dob = {
-    currentQuestion: 'Please enter your date of birth (yyyy-mm-dd): ',
-    nextStatement: 'Please enter your hobbies (comma separated) ',
-    relatedToField: 'dob',
-    parser: parseDOB,
-    validator: validateDOB
-  };
-
-  const hobbies = {
-    currentQuestion: 'Please enter your hobbies (comma separated) ',
-    nextStatement: 'Thankyou!! (Press control + d to save your data)',
-    relatedToField: 'hobbies',
-    parser: parseHobbies,
-    validator: validateHobbies
-  };
-
-  return [name, dob, hobbies];
-};
-
-const saveAnswer = (answer, question, answers) => {
-  if (question.validator(answer)) {
-    const parsedAnswer = question.parser(answer);
-    answers[question.relatedToField] = parsedAnswer;
-    console.log(question.nextStatement);
+const displayNextStatement = (form, isResponseValid) => {
+  if (!isResponseValid) {
+    form.currentQuestion().displayError();
+    form.currentQuestion().displayStatement();
     return;
   }
-  console.log(question.currentQuestion);
+
+  if (!form.anyQuestionsLeft()) {
+    form.displayEndMessage();
+    return;
+  }
+
+  form.nextQuestion().displayStatement();
+
+}
+
+const saveAnswer = (answer, form) => {
+  if (form.currentQuestion().validator(answer)) {
+
+    const parsedAnswer = form.currentQuestion().parser(answer);
+    form.updateResponse(form.currentQuestion().getType(), parsedAnswer);
+
+    return true;
+  }
+  return false;
 };
 
-const takeInput = (callBack, questions) => {
+const takeInput = (callBack, form) => {
   process.stdin.setEncoding('utf8');
-  const answers = {};
-  let questionNumber = 0;
 
   process.stdin.on('data', (chunk) => {
+
     const trimmedChunk = chunk.trim();
-    callBack(trimmedChunk, questions[questionNumber], answers);
-    questionNumber++;
+    const isResponseValid = callBack(trimmedChunk, form);
+    displayNextStatement(form, isResponseValid);
+
   })
 
-  process.stdin.on('end', () => writeToJSON(answers));
+  process.stdin.on('end', () => writeToFile(form.responseToJSON()));
 };
 
 const formMain = () => {
   const inputHandler = new InputHandler();
-  const questions = getQuestion();
 
-  console.log(questions[0].currentQuestion);
-  takeInput((chunk, questions, answers) => {
-    inputHandler.processChunk(saveAnswer, chunk, questions, answers);
-  }, questions);
+  const name = new Question(
+    'Please enter your name: ',
+    'name',
+    parseName,
+    validateName,
+    'The name you entered is not valid.'
+  )
+
+  const DOB = new Question(
+    'Please enter your date of birth (yyyy-mm-dd): ',
+    'DOB',
+    parseDOB,
+    validateDOB,
+    'The date you entered is not valid.'
+  );
+
+  const hobbies = new Question(
+    'Please enter your hobbies (comma separated) ',
+    'hobbies',
+    parseHobbies,
+    validateHobbies,
+    'You have to enter at least one hobby.'
+  );
+
+  const phoneNum = new Question(
+    'Please Enter your phone number: ',
+    'phone',
+    parseNumber,
+    validateNumber,
+    'Phone number you entered is not valid.'
+  )
+
+  const form = new Form();
+  form.addQuestion(name);
+  form.addQuestion(DOB);
+  form.addQuestion(hobbies);
+  form.addQuestion(phoneNum);
+
+  form.currentQuestion().displayStatement();
+  takeInput((chunk, form) => {
+    return inputHandler.processChunk(saveAnswer, chunk, form);
+  }, form);
 };
 
 formMain();

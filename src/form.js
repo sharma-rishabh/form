@@ -2,7 +2,8 @@ class Form {
   #index;
   constructor() {
     this.questions = [];
-    this.index = 0;
+    this.#index = 0;
+    this.response = {};
   }
 
   addQuestion(question) {
@@ -15,7 +16,26 @@ class Form {
 
   nextQuestion() {
     this.#index++;
-    this.currentQuestion()
+    return this.currentQuestion()
+  }
+
+  updateResponse(type, data) {
+    this.response[type] = data;
+  }
+
+  responseToJSON() {
+    return JSON.stringify(this.response);
+  }
+
+  anyQuestionsLeft() {
+    return this.#index < this.questions.length - 1;
+  }
+
+  displayEndMessage() {
+    if (this.#index === this.questions.length - 1) {
+      console.log('Thankyou!! press (control + d) to save your response.');
+    }
+    return;
   }
 }
 
