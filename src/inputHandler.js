@@ -11,7 +11,7 @@ class InputHandler {
     return this.input;
   }
 
-  processChunk(chunkProcessor, chunk, args) {
+  processChunk(chunkProcessor, chunk, ...args) {
     chunkProcessor.apply(null, [chunk, ...args]);
   }
 }
