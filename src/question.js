@@ -1,9 +1,10 @@
 class Question {
-  constructor(statement, type, parser, validator) {
+  constructor(statement, type, parser, validator, error) {
     this.statement = statement;
     this.type = type;
     this.parser = parser;
     this.validator = validator;
+    this.error = error
   }
 
   getStatement() {
@@ -12,6 +13,10 @@ class Question {
 
   getType() {
     return this.type;
+  }
+
+  getError() {
+    return this.error;
   }
 
   parseAnswer(answer, context) {
