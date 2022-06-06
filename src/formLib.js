@@ -14,6 +14,15 @@ const validateNumber = (number) => {
   return isValidNumber.test(number);
 };
 
+const parseAddress = (address, prevOption) => {
+  if (prevOption.address) {
+    return prevOption.address + '\n' + address;
+  }
+  return address;
+};
+
+const validateAddress = (address) => address.length > 0;
+
 const parseName = (name) => {
   return name;
 };
@@ -63,7 +72,7 @@ const displayNextStatement = (form, isResponseValid) => {
 const saveAnswer = (answer, form) => {
   if (form.currentQuestion().validator(answer)) {
 
-    const parsedAnswer = form.currentQuestion().parser(answer);
+    const parsedAnswer = form.currentQuestion().parser(answer, form.getResponse());
     form.updateResponse(form.currentQuestion().getType(), parsedAnswer);
 
     return true;
@@ -75,7 +84,6 @@ const takeInput = (callBack, form) => {
   process.stdin.setEncoding('utf8');
 
   process.stdin.on('data', (chunk) => {
-
     const trimmedChunk = chunk.trim();
     const isResponseValid = callBack(trimmedChunk, form);
     displayNextStatement(form, isResponseValid);
@@ -94,7 +102,7 @@ const formMain = () => {
     parseName,
     validateName,
     'The name you entered is not valid.'
-  )
+  );
 
   const DOB = new Question(
     'Please enter your date of birth (yyyy-mm-dd): ',
@@ -118,13 +126,31 @@ const formMain = () => {
     parseNumber,
     validateNumber,
     'Phone number you entered is not valid.'
-  )
+  );
+
+  const addressLine1 = new Question(
+    'Please Enter your address line 1: ',
+    'address',
+    parseAddress,
+    validateAddress,
+    'Address can not be empty.'
+  );
+
+  const addressLine2 = new Question(
+    'Please Enter your address line 2: ',
+    'address',
+    parseAddress,
+    validateAddress,
+    'Address can not be empty.'
+  );
 
   const form = new Form();
   form.addQuestion(name);
   form.addQuestion(DOB);
   form.addQuestion(hobbies);
   form.addQuestion(phoneNum);
+  form.addQuestion(addressLine1);
+  form.addQuestion(addressLine2);
 
   form.currentQuestion().displayStatement();
   takeInput((chunk, form) => {

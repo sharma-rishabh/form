@@ -23,6 +23,10 @@ class Form {
     this.response[type] = data;
   }
 
+  getResponse() {
+    return this.response;
+  }
+
   responseToJSON() {
     return JSON.stringify(this.response);
   }
