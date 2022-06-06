@@ -1,7 +1,13 @@
+const fs = require('fs');
 const { InputHandler } = require('./inputHandler');
 
 const parseName = (name) => {
-  return name.slice(0, -1);
+  return name;
+};
+
+const writeToJSON = (object) => {
+  const JSONString = JSON.stringify(object);
+  fs.writeFileSync('./answers.json', JSONString, 'utf8');
 };
 
 const parseDOB = (date) => {
@@ -14,10 +20,7 @@ const parseDOB = (date) => {
 }
 
 const parseHobbies = (hobbies) => {
-  const hobbyArray = hobbies.split(',');
-  const lastHobby = hobbyArray[hobbyArray.length - 1].slice(0, -1);
-  hobbyArray[hobbyArray.length - 1] = lastHobby;
-  return hobbyArray;
+  return hobbies.split(',');
 }
 
 const getQuestion = () => {
@@ -35,7 +38,7 @@ const getQuestion = () => {
   };
   const hobbies = {
     currentQuestion: 'Please enter your hobbies (comma separated) ',
-    nextStatement: 'Thankyou',
+    nextStatement: 'Thankyou!! (Press control + d to save your data)',
     relatedToField: 'hobbies',
     parser: parseHobbies
   };
@@ -54,10 +57,11 @@ const takeInput = (callBack, questions) => {
   const answers = {};
   let questionNumber = 0;
   process.stdin.on('data', (chunk) => {
-    callBack(chunk, questions[questionNumber], answers);
+    const trimmedChunk = chunk.trim();
+    callBack(trimmedChunk, questions[questionNumber], answers);
     questionNumber++;
   })
-  process.stdin.on('end', () => console.log(answers));
+  process.stdin.on('end', () => writeToJSON(answers));
 };
 
 const formMain = () => {
