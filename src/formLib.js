@@ -1,6 +1,5 @@
 const fs = require('fs');
 const { Form } = require('./form.js');
-const { InputHandler } = require('./inputHandler.js');
 
 const { nameQuestion, DOBQuestion, hobbiesQuestion, phoneQuestion, line1Question, line2Question } = require("./questions.js");
 
@@ -42,35 +41,23 @@ const takeInput = (callBack, form) => {
     const trimmedChunk = chunk.trim();
     const isResponseValid = callBack(trimmedChunk, form);
     displayNextStatement(form, isResponseValid);
-
-  })
+  });
 
   process.stdin.on('end', () => writeToFile(form.responseToJSON()));
 };
 
 const formMain = () => {
-  const inputHandler = new InputHandler();
-
-  const name = nameQuestion();
-  const DOB = DOBQuestion();
-  const hobbies = hobbiesQuestion();
-  const phoneNum = phoneQuestion();
-  const addressLine1 = line1Question();
-  const addressLine2 = line2Question();
-
   const form = new Form();
-  form.addQuestion(name);
-  form.addQuestion(DOB);
-  form.addQuestion(hobbies);
-  form.addQuestion(phoneNum);
-  form.addQuestion(addressLine1);
-  form.addQuestion(addressLine2);
+  form.addQuestion(nameQuestion());
+  form.addQuestion(DOBQuestion());
+  form.addQuestion(hobbiesQuestion());
+  form.addQuestion(phoneQuestion());
+  form.addQuestion(line1Question());
+  form.addQuestion(line2Question());
 
   form.currentQuestion().displayStatement();
 
-  takeInput((chunk, form) => {
-    return inputHandler.processChunk(saveAnswer, chunk, form);
-  }, form);
+  takeInput(saveAnswer, form);
 };
 
 formMain();
