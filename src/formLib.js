@@ -1,11 +1,8 @@
 const fs = require('fs');
 const { Form } = require('./form.js');
 const { InputHandler } = require('./inputHandler.js');
-const { Question } = require('./question');
 
-const { parseName, validateName, parseDOB, validateDOB, parseHobbies,
-  validateHobbies, parseNumber, validateNumber, parseAddress,
-  validateAddress } = require('./parsersAndValidators.js');
+const { nameQuestion, DOBQuestion, hobbiesQuestion, phoneQuestion, line1Question, line2Question } = require("./questions.js");
 
 const writeToFile = (string) => {
   fs.writeFileSync('./answers.json', string, 'utf8');
@@ -54,53 +51,12 @@ const takeInput = (callBack, form) => {
 const formMain = () => {
   const inputHandler = new InputHandler();
 
-  const name = new Question(
-    'Please enter your name: ',
-    'name',
-    parseName,
-    validateName,
-    'The name you entered is not valid.'
-  );
-
-  const DOB = new Question(
-    'Please enter your date of birth (yyyy-mm-dd): ',
-    'DOB',
-    parseDOB,
-    validateDOB,
-    'The date you entered is not valid.'
-  );
-
-  const hobbies = new Question(
-    'Please enter your hobbies (comma separated) ',
-    'hobbies',
-    parseHobbies,
-    validateHobbies,
-    'You have to enter at least one hobby.'
-  );
-
-  const phoneNum = new Question(
-    'Please Enter your phone number: ',
-    'phone',
-    parseNumber,
-    validateNumber,
-    'Phone number you entered is not valid.'
-  );
-
-  const addressLine1 = new Question(
-    'Please Enter your address line 1: ',
-    'address',
-    parseAddress,
-    validateAddress,
-    'Address can not be empty.'
-  );
-
-  const addressLine2 = new Question(
-    'Please Enter your address line 2: ',
-    'address',
-    parseAddress,
-    validateAddress,
-    'Address can not be empty.'
-  );
+  const name = nameQuestion();
+  const DOB = DOBQuestion();
+  const hobbies = hobbiesQuestion();
+  const phoneNum = phoneQuestion();
+  const addressLine1 = line1Question();
+  const addressLine2 = line2Question();
 
   const form = new Form();
   form.addQuestion(name);
@@ -111,6 +67,7 @@ const formMain = () => {
   form.addQuestion(addressLine2);
 
   form.currentQuestion().displayStatement();
+
   takeInput((chunk, form) => {
     return inputHandler.processChunk(saveAnswer, chunk, form);
   }, form);
