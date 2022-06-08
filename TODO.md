@@ -12,6 +12,7 @@
 
 ## Done
 
+- [x] Move stdIn to main.
 - [x] Move main out of library.
 - [x] Move stdin out of library.
 - [x] Move writeFileSync to main.

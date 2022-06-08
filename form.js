@@ -8,17 +8,6 @@ const writeToFile = (string) => {
   fs.writeFileSync('./answers.json', string, 'utf8');
 };
 
-const takeInput = (callBack, form) => {
-  process.stdin.setEncoding('utf8');
-
-  process.stdin.on('data', (chunk) => {
-    const trimmedChunk = chunk.trim();
-    callBack(trimmedChunk, form);
-  });
-
-  process.stdin.on('end', () => writeToFile(form.responseToJSON()));
-};
-
 const formMain = () => {
   const form = new Form();
   form.addQuestion(nameQuestion());
@@ -27,7 +16,15 @@ const formMain = () => {
   form.addQuestion(phoneQuestion());
 
   console.log(form.getPrompt());
-  takeInput(saveAnswer, form);
+
+  process.stdin.setEncoding('utf8');
+
+  process.stdin.on('data', (chunk) => {
+    const trimmedChunk = chunk.trim();
+    saveAnswer(trimmedChunk, form);
+  });
+
+  process.stdin.on('end', () => writeToFile(form.responseToJSON()));
 };
 
 formMain();

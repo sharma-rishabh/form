@@ -13,4 +13,4 @@ const saveAnswer = (answer, form) => {
   console.log(form.getPrompt());
 };
 
-module.exports = { displayNextStatement, saveAnswer };
+module.exports = { saveAnswer };
