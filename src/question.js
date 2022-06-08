@@ -27,18 +27,6 @@ class Question {
     return this.#statement;
   }
 
-  displayStatement() {
-    console.log(this.#statement);
-  }
-
-  displayError() {
-    console.log(this.#error);
-  }
-
-  getType() {
-    return this.#type;
-  }
-
   getError() {
     return this.#error;
   }

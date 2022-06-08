@@ -26,8 +26,7 @@ const formMain = () => {
   form.addQuestion(hobbiesQuestion());
   form.addQuestion(phoneQuestion());
 
-  form.currentQuestion().displayStatement();
-
+  console.log(form.getPrompt());
   takeInput(saveAnswer, form);
 };
 
