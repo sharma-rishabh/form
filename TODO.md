@@ -1,6 +1,5 @@
 ## Doing
 
-- [ ] Make a create form function.
 
 ## Todo
 
@@ -23,3 +22,4 @@
 - [x] Remove unused function from classes.
 - [x] inject log dependency from main.
 - [x] give call back to form on what to do if form is ended.
+- [x] Make a create form function.

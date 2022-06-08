@@ -69,4 +69,4 @@ module.exports = {
   phoneQuestion,
   DOBQuestion,
   hobbiesQuestion
-}
+};
