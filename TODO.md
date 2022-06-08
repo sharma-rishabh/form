@@ -5,7 +5,6 @@
 
 - [ ] Add address functionality to form.
 - [ ] Remove unnecessary parsers and validators. 
-- [ ] Move functions other than main from form.js to library.
 
 
 ## Done
@@ -23,3 +22,4 @@
 - [x] inject log dependency from main.
 - [x] give call back to form on what to do if form is ended.
 - [x] Make a create form function.
+- [x] Move functions other than main from form.js to library.
