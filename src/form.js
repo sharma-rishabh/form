@@ -3,7 +3,6 @@ class Form {
   constructor() {
     this.questions = [];
     this.#index = 0;
-    this.response = {};
   }
 
   addQuestion(question) {
@@ -38,7 +37,7 @@ class Form {
     return this.currentQuestion().getStatement();
   }
 
-  responseToJSON() {
+  #responseToJSON() {
     return JSON.stringify(this.getResponse());
   }
 
@@ -48,6 +47,11 @@ class Form {
 
   displayEndMessage() {
     console.log('Thankyou!! press (control + d) to save your response.');
+  }
+
+  save(writer) {
+    writer('./answers.json', this.#responseToJSON(), 'utf8');
+    process.stdin.destroy();
   }
 }
 

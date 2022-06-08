@@ -1,12 +1,9 @@
+const fs = require('fs');
 const { saveAnswer } = require('./src/formLib.js');
 const { Form } = require('./src/form.js');
-const fs = require('fs');
 
-const { nameQuestion, DOBQuestion, hobbiesQuestion, phoneQuestion, line1Question, line2Question } = require("./src/questions.js");
-
-const writeToFile = (string) => {
-  fs.writeFileSync('./answers.json', string, 'utf8');
-};
+const lib = require("./src/questions.js");
+const { nameQuestion, DOBQuestion, hobbiesQuestion, phoneQuestion } = lib;
 
 const formMain = () => {
   const form = new Form();
@@ -21,10 +18,8 @@ const formMain = () => {
 
   process.stdin.on('data', (chunk) => {
     const trimmedChunk = chunk.trim();
-    saveAnswer(trimmedChunk, form, console.log);
+    saveAnswer(trimmedChunk, form, console.log, fs.writeFileSync);
   });
-
-  process.stdin.on('end', () => writeToFile(form.responseToJSON()));
 };
 
 formMain();

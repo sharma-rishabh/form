@@ -1,4 +1,4 @@
-const saveAnswer = (answer, form, log) => {
+const saveAnswer = (answer, form, log, writer) => {
   try {
     form.updateResponse(answer);
   } catch (error) {
@@ -6,7 +6,8 @@ const saveAnswer = (answer, form, log) => {
   }
 
   if (!form.anyQuestionsLeft()) {
-    form.displayEndMessage();
+    log('Thankyou');
+    form.save(writer);
     return;
   }
 
