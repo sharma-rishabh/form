@@ -44,13 +44,15 @@ const parseHobbies = (hobbies) => {
   return hobbies.split(',');
 };
 
-exports.parseNumber = parseNumber;
-exports.parseHobbies = parseHobbies;
-exports.parseDOB = parseDOB;
-exports.validateHobbies = validateHobbies;
-exports.validateDOB = validateDOB;
-exports.validateName = validateName;
-exports.validateNumber = validateNumber;
-exports.parseAddress = parseAddress;
-exports.validateAddress = validateAddress;
-exports.parseName = parseName;
+module.exports = {
+  parseNumber,
+  parseHobbies,
+  parseDOB,
+  validateHobbies,
+  validateDOB,
+  validateName,
+  validateNumber,
+  parseAddress,
+  validateAddress,
+  parseName
+};

@@ -19,6 +19,15 @@ class Question {
     this.#response = response;
   }
 
+  equals(anotherQuestion) {
+    return anotherQuestion instanceof Question &&
+      this.#statement === anotherQuestion.#statement &&
+      this.#error === anotherQuestion.#error &&
+      this.#type === anotherQuestion.#type &&
+      this.#validator === anotherQuestion.#validator &&
+      this.#parser === anotherQuestion.#parser
+  }
+
   getResponse() {
     return { type: this.#type, response: this.parseAnswer(this.#response) };
   }
@@ -31,8 +40,8 @@ class Question {
     return this.#error;
   }
 
-  parseAnswer(answer, context) {
-    return this.#parser(answer, context);
+  parseAnswer(answer) {
+    return this.#parser(answer);
   }
 
   validate(answer) {
@@ -40,4 +49,4 @@ class Question {
   }
 }
 
-exports.Question = Question;
+module.exports = { Question };

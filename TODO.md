@@ -23,3 +23,4 @@
 - [x] give call back to form on what to do if form is ended.
 - [x] Make a create form function.
 - [x] Move functions other than main from form.js to library.
+- [x] add test for `question`.
