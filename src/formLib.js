@@ -1,8 +1,8 @@
-const saveAnswer = (answer, form) => {
+const saveAnswer = (answer, form, log) => {
   try {
     form.updateResponse(answer);
   } catch (error) {
-    console.log('invalid Response');
+    log('invalid Response');
   }
 
   if (!form.anyQuestionsLeft()) {
@@ -10,7 +10,7 @@ const saveAnswer = (answer, form) => {
     return;
   }
 
-  console.log(form.getPrompt());
+  log(form.getPrompt());
 };
 
 module.exports = { saveAnswer };

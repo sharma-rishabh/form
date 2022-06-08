@@ -21,7 +21,7 @@ const formMain = () => {
 
   process.stdin.on('data', (chunk) => {
     const trimmedChunk = chunk.trim();
-    saveAnswer(trimmedChunk, form);
+    saveAnswer(trimmedChunk, form, console.log);
   });
 
   process.stdin.on('end', () => writeToFile(form.responseToJSON()));

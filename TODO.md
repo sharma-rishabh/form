@@ -1,12 +1,12 @@
 ## Doing
 
+
 ## Todo
 
 - [ ] Add address functionality to form.
 - [ ] Make a create form function.
 - [ ] Remove unnecessary parsers and validators. 
 - [ ] give call back to form on what to do if form is ended.
-- [ ] inject log dependency from main.
 - [ ] Move functions other than main from form.js to library.
 
 
@@ -22,3 +22,4 @@
 - [x] Move validation to form class.
 - [x] refactor code to work with new classes.
 - [x] Remove unused function from classes.
+- [x] inject log dependency from main.
