@@ -1,10 +1,10 @@
 ## Doing
 
+- [ ] Make a create form function.
 
 ## Todo
 
 - [ ] Add address functionality to form.
-- [ ] Make a create form function.
 - [ ] Remove unnecessary parsers and validators. 
 - [ ] Move functions other than main from form.js to library.
 

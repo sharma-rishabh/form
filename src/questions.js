@@ -5,59 +5,68 @@ const nameQuestion = () => {
   return new Question(
     'Please enter your name: ',
     'name',
-    parseName,
+    'The name you entered is not valid.',
     validateName,
-    'The name you entered is not valid.'
+    parseName,
   );
 };
-exports.nameQuestion = nameQuestion;
+
 const DOBQuestion = () => {
   return new Question(
     'Please enter your date of birth (yyyy-mm-dd): ',
     'DOB',
-    parseDOB,
+    'The date you entered is not valid.',
     validateDOB,
-    'The date you entered is not valid.'
+    parseDOB
   );
 };
-exports.DOBQuestion = DOBQuestion;
+
 const hobbiesQuestion = () => {
   return new Question(
     'Please enter your hobbies (comma separated) ',
     'hobbies',
-    parseHobbies,
+    'You have to enter at least one hobby.',
     validateHobbies,
-    'You have to enter at least one hobby.'
+    parseHobbies,
   );
 };
-exports.hobbiesQuestion = hobbiesQuestion;
+
 const phoneQuestion = () => {
   return new Question(
     'Please Enter your phone number: ',
     'phone',
-    parseNumber,
+    'Phone number you entered is not valid.',
     validateNumber,
-    'Phone number you entered is not valid.'
+    parseNumber,
   );
 };
-exports.phoneQuestion = phoneQuestion;
+
 const line1Question = () => {
   return new Question(
     'Please Enter your address line 1: ',
     'address',
-    parseAddress,
+    'Address can not be empty.',
     validateAddress,
-    'Address can not be empty.'
+    parseAddress,
   );
 };
-exports.line1Question = line1Question;
+
 const line2Question = () => {
   return new Question(
     'Please Enter your address line 2: ',
     'address',
-    parseAddress,
+    'Address can not be empty.',
     validateAddress,
-    'Address can not be empty.'
+    parseAddress,
   );
 };
-exports.line2Question = line2Question;
+
+
+module.exports = {
+  line2Question,
+  nameQuestion,
+  line1Question,
+  phoneQuestion,
+  DOBQuestion,
+  hobbiesQuestion
+}

@@ -45,10 +45,6 @@ class Form {
     return this.#index < this.questions.length;
   }
 
-  displayEndMessage() {
-    console.log('Thankyou!! press (control + d) to save your response.');
-  }
-
   save(writer) {
     writer('./answers.json', this.#responseToJSON(), 'utf8');
     process.stdin.destroy();

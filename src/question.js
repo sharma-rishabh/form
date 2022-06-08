@@ -6,7 +6,7 @@ class Question {
   #error;
   #response;
 
-  constructor(statement, type, parser = x => x, validator = _ => true, error) {
+  constructor(statement, type, error, validator = _ => true, parser = x => x) {
     this.#statement = statement;
     this.#type = type;
     this.#parser = parser;
