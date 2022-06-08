@@ -14,32 +14,40 @@ class Form {
     return this.questions[this.#index];
   }
 
-  nextQuestion() {
+  updateResponse(data) {
+    const currentQuestion = this.currentQuestion();
+    if (!currentQuestion.validate(data)) {
+      throw new Error(currentQuestion.getError());
+    }
+    currentQuestion.fillResponse(data);
     this.#index++;
-    return this.currentQuestion()
-  }
-
-  updateResponse(type, data) {
-    this.response[type] = data;
   }
 
   getResponse() {
-    return this.response;
+    const answer = {};
+
+    this.questions.forEach((question) => {
+      const { type, response } = question.getResponse();
+      answer[type] = response;
+    });
+
+    return answer;
+  }
+
+  getPrompt() {
+    return this.currentQuestion().getStatement();
   }
 
   responseToJSON() {
-    return JSON.stringify(this.response);
+    return JSON.stringify(this.getResponse());
   }
 
   anyQuestionsLeft() {
-    return this.#index < this.questions.length - 1;
+    return this.#index < this.questions.length;
   }
 
   displayEndMessage() {
-    if (this.#index === this.questions.length - 1) {
-      console.log('Thankyou!! press (control + d) to save your response.');
-    }
-    return;
+    console.log('Thankyou!! press (control + d) to save your response.');
   }
 }
 
