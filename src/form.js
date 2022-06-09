@@ -1,16 +1,27 @@
 class Form {
   #index;
+  #questions;
   constructor() {
-    this.questions = [];
+    this.#questions = [];
     this.#index = 0;
   }
 
+  equals(anotherForm) {
+    if (!anotherForm instanceof Form) {
+      return false;
+    }
+
+    return anotherForm.#questions.every((question, index) => {
+      return question.equals(this.#questions[index]);
+    });
+  }
+
   addQuestion(question) {
-    this.questions.push(question);
+    this.#questions.push(question);
   }
 
   currentQuestion() {
-    return this.questions[this.#index];
+    return this.#questions[this.#index];
   }
 
   updateResponse(data) {
@@ -25,7 +36,7 @@ class Form {
   getResponse() {
     const answer = {};
 
-    this.questions.forEach((question) => {
+    this.#questions.forEach((question) => {
       const { type, response } = question.getResponse();
       answer[type] = response;
     });
@@ -42,7 +53,7 @@ class Form {
   }
 
   anyQuestionsLeft() {
-    return this.#index < this.questions.length;
+    return this.#index < this.#questions.length;
   }
 
   save(writer) {

@@ -3,6 +3,7 @@
 
 ## Todo
 
+- [ ] Add test for form class.
 - [ ] Add address functionality to form.
 - [ ] Remove unnecessary parsers and validators. 
 
